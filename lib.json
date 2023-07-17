@@ -8,4 +8,7 @@
 		"Simbel",
 		"Dobby223Liu"
 	],
+	"config": {
+		"virtual": true
+	},
 }
