@@ -20,7 +20,7 @@ function Lib:messageBoard(message, title)
 			error("[Wii BIOS] Tried to send a message, but none existed.")
 			return
 		end
-		print(self.wii_data["messages"])
+		
 		local fm = {
 			["title"] = title or Mod.info.name,
 			["message"] = message,
