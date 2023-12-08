@@ -29,16 +29,12 @@ function Lib:messageBoard(message, title)
 			["date"] = os.date("%m/%d/%Y")
 		}
 		
-		local size = 0
-		
+		local size = 1
 		for _ in pairs(self.wii_data["messages"])	do
 			size = size + 1
 		end
 		
-		size = size + 1
-		
 		self.wii_data["messages"][size] = fm
-		
 		love.filesystem.write("wii_settings.json", JSON.encode(self.wii_data))
 	end
 end
