@@ -39,4 +39,17 @@ function Lib:messageBoard(message, title)
 	end
 end
 
+function Lib:getVii()
+	if not Kristal.load_wii then
+		Kristal.Console:warn("[Wii BIOS] Kristal is not currently in Wii Mode.")
+	end
+	
+	if self.wii_data then
+		if self.wii_data["vii"] then
+			return self.wii_data["vii"]
+		end
+	end
+	return false
+end
+
 return Lib
