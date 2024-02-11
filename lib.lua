@@ -73,4 +73,25 @@ function Lib:getVii()
 	}
 end
 
+function Lib:madeVii()
+	if not Kristal.load_wii then
+		Kristal.Console:warn("[Wii BIOS] Kristal is not currently in Wii Mode.")
+	end
+	
+	local wii_data = love.filesystem.read("wii_settings.json")
+	local wii_data_dc
+	if wii_data then
+		wii_data_dc = JSON.decode(wii_data)
+	else
+		return false
+	end
+	
+	if wii_data_dc then
+		if wii_data_dc["vii"] then
+			return true
+		end
+	end
+	return false
+end
+
 return Lib
