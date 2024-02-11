@@ -45,7 +45,10 @@ function Lib:getVii()
 	end
 	
 	local wii_data = love.filesystem.read("wii_settings.json")
-	local wii_data_dc = JSON.decode(wii_data)
+	local wii_data_dc
+	if wii_data then
+		wii_data_dc = JSON.decode(wii_data)
+	end
 	
 	if wii_data_dc then
 		if wii_data_dc["vii"] then
