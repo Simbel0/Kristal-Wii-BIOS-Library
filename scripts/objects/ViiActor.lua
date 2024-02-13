@@ -5,17 +5,51 @@ function Vii:init(actor, data)
 
     self.data = data
 
-    Utils.hook(Sprite, "init", function(orig, self, texture, x, y, width, height, path)
-        orig(self, texture, x, y, width, height, path)
-        print(texture)
-    end)
+    self.parts_offsets = {
+        down = {
+            hair = {0, 0},
+            head = {0, 0},
+            body_in = {0, 0},
+            body_out = {0, 0},
+            stripes = {0, 0},
+            hands = {0, 0},
+            legs = {0, 0}
+        },
+        left = {
+            hair = {1, 0},
+            head = {-2, -1},
+            body_in = {0, 3},
+            body_out = {0, 0},
+            stripes = {0, 3},
+            hands = {-1, 0},
+            legs = {0, 0}
+        },
+        right = {
+            hair = {1, 0},
+            head = {2, -1},
+            body_in = {0, 3},
+            body_out = {0, 0},
+            stripes = {0, 3},
+            hands = {1, 0},
+            legs = {0, 0}
+        },
+        up = {
+            hair = {0, 1},
+            head = {0, 0},
+            body_in = {0, 3},
+            body_out = {0, 0},
+            stripes = {0, 3},
+            hands = {0, 1},
+            legs = {0, 0}
+        },
+    }
 
     self.parts = {
-        hair = Sprite("vii/hair/"..self.data.head.."/down", 8.5, 18),
-        head = Sprite("vii/head/"..self.data.head.."/down", 8.5, 18),
-        body_in = Sprite("vii/body/"..self.data.body.."/in/walk/down", 9, 28),
+        hair = Sprite("vii/hair/"..self.data.head.."/down", 8.5, 17),
+        head = Sprite("vii/head/"..self.data.head.."/down", 8.5, 17),
+        body_in = Sprite("vii/body/"..self.data.body.."/in/walk/down", 9, 25),
         body_out = Sprite("vii/body/"..self.data.body.."/out/walk/down", 9, 28),
-        stripes = Sprite("vii/stripes/"..self.data.body.."/down", 9, 28),
+        stripes = Sprite("vii/stripes/"..self.data.body.."/down", 9, 25),
         hands = Sprite("vii/hands/"..self.data.body.."/down", 9, 28),
         legs = Sprite("vii/legs/"..(self.data.legs_left and "left" or "right").."/down", 9, 35)
     }
@@ -41,6 +75,23 @@ function Vii:init(actor, data)
         i = i + 1
         self:addChild(v)
     end
+end
+
+function Vii:updateDirection()
+    print(self.directional, self.facing, self.last_facing)
+    if self.facing ~= self.last_facing then
+        self.parts["hair"]:setSprite("vii/hair/"..self.data.head.."/"..self.facing)
+        self.parts["head"]:setSprite("vii/head/"..self.data.head.."/"..self.facing)
+        self.parts["body_in"]:setSprite("vii/body/"..self.data.body.."/in/walk/"..self.facing)
+        self.parts["body_out"]:setSprite("vii/body/"..self.data.body.."/out/walk/"..self.facing)
+        self.parts["stripes"]:setSprite("vii/stripes/"..self.data.body.."/"..self.facing)
+        self.parts["hands"]:setSprite("vii/hands/"..self.data.body.."/"..self.facing)
+        self.parts["legs"]:setSprite("vii/legs/"..(self.data.legs_left and "left" or "right").."/"..self.facing)
+        for part,spr in pairs(self.parts) do
+            spr:setPosition(spr.init_x+self.parts_offsets[self.facing][part][1], spr.init_y+self.parts_offsets[self.facing][part][2])
+        end
+    end
+    self.last_facing = self.facing
 end
 
 return Vii
