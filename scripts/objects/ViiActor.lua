@@ -3,6 +3,9 @@ local Vii, super = Class(ActorSprite)
 function Vii:init(actor, data)
     super:init(self, actor)
 
+    self.walk_override = true
+    self.frames = {}
+
     self.data = data
 
     self.parts_offsets = {
@@ -74,6 +77,15 @@ function Vii:init(actor, data)
         v:setOrigin(0.5, 1)
         i = i + 1
         self:addChild(v)
+    end
+end
+
+function Vii:setFrame(frame)
+    --super.setFrame(self, frame)
+    print(frame)
+    if not self.parts then return end
+    for part,spr in pairs(self.parts) do
+        spr:setFrame(frame)
     end
 end
 
