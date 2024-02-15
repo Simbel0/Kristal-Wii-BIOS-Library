@@ -21,7 +21,7 @@ function Vii:init(actor, data)
             body_in = {0, 3},
             body_out = {0, 0},
             stripes = {0, 3},
-            hands = {-1, 0},
+            hands = {-0.5, 0},
             legs = {0, 0}
         },
         right = {
@@ -30,7 +30,7 @@ function Vii:init(actor, data)
             body_in = {0, 3},
             body_out = {0, 0},
             stripes = {0, 3},
-            hands = {1, 0},
+            hands = {0.5, 0},
             legs = {0, 0}
         },
         up = {
