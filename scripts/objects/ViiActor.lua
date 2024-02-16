@@ -21,25 +21,25 @@ function Vii:init(actor, data)
         left = {
             hair = {1, 0},
             head = {-2, -1},
-            body_in = {0, 3},
-            body_out = {0, 0},
+            body_in = {0, 2},
+            body_out = {0, 1},
             stripes = {0, 3},
             hands = {-0.5, 0},
-            legs = {-2, 0}
+            legs = {-1, 0}
         },
         right = {
             hair = {1, 0},
             head = {2, -1},
-            body_in = {0, 3},
-            body_out = {0, 0},
+            body_in = {0, 2},
+            body_out = {0, 1},
             stripes = {0, 3},
             hands = {0.5, 0},
-            legs = {2, 0}
+            legs = {1, 0}
         },
         up = {
             hair = {0, 1},
             head = {0, 0},
-            body_in = {0, 3},
+            body_in = {0, 2},
             body_out = {0, 0},
             stripes = {0, 3},
             hands = {0, 1},
@@ -50,7 +50,7 @@ function Vii:init(actor, data)
     self.parts = {
         hair = Sprite("vii/hair/"..self.data.head.."/down", 8.5, 17),
         head = Sprite("vii/head/"..self.data.head.."/down", 8.5, 17),
-        body_in = Sprite("vii/body/"..self.data.body.."/in/walk/down", 9, 25),
+        body_in = Sprite("vii/body/"..self.data.body.."/in/walk/down", 9, 26),
         body_out = Sprite("vii/body/"..self.data.body.."/out/walk/down", 9, 28),
         stripes = Sprite("vii/stripes/"..self.data.body.."/down", 9, 25),
         hands = Sprite("vii/hands/"..self.data.body.."/down", 9, 28),
