@@ -57,7 +57,12 @@ function Vii:init(actor, data)
         legs = Sprite("vii/legs/"..(self.data.legs_left and "left" or "right").."/down", 9, 35)
     }
     self.parts_layer = {
-        hair = 1,
+        hair = {
+			["down"] = -1,
+			["up"] = 1,
+			["left"] = -1,
+			["right"] = -1
+		},
     }
     self:setOrigin(0, 0)
 
@@ -72,7 +77,7 @@ function Vii:init(actor, data)
     local i = 1
     for k,v in pairs(self.parts) do
         if self.parts_layer[k] then
-            v:setLayer(self.parts_layer[k])
+            v:setLayer(self.parts_layer[k]["down"])
         end
         v:setOrigin(0.5, 1)
         i = i + 1
@@ -82,7 +87,7 @@ end
 
 function Vii:setFrame(frame)
     --super.setFrame(self, frame)
-    print(frame)
+    --print(frame)
     if not self.parts then return end
     for part,spr in pairs(self.parts) do
         spr:setFrame(frame)
@@ -90,7 +95,7 @@ function Vii:setFrame(frame)
 end
 
 function Vii:updateDirection()
-    print(self.directional, self.facing, self.last_facing)
+    --print(self.directional, self.facing, self.last_facing)
     if self.facing ~= self.last_facing then
         self.parts["hair"]:setSprite("vii/hair/"..self.data.head.."/"..self.facing)
         self.parts["head"]:setSprite("vii/head/"..self.data.head.."/"..self.facing)
@@ -104,6 +109,20 @@ function Vii:updateDirection()
         end
     end
     self.last_facing = self.facing
+end
+
+function Vii:update()
+	super.update(self)
+    for part,spr in pairs(self.parts) do
+		if (part == "hair" or part == "head") and self.parts["body_in"].frame%2 == 0 then
+			spr:setPosition(spr.init_x+self.parts_offsets[self.facing][part][1], spr.init_y+self.parts_offsets[self.facing][part][2]+1)
+		else
+			spr:setPosition(spr.init_x+self.parts_offsets[self.facing][part][1], spr.init_y+self.parts_offsets[self.facing][part][2])
+		end
+        if self.parts_layer[part] and self.parts_layer[part][self.facing] then
+            spr:setLayer(self.parts_layer[part][self.facing])
+        end
+    end
 end
 
 return Vii
