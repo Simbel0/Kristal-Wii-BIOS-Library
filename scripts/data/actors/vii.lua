@@ -5,6 +5,7 @@ function Vii:init()
     self.width, self.height = 17, 35
     self.hitbox = {3, 24, 12, 10}
     self.path = "vii"
+    self.default = "walk"
 
     self.data = Kristal.callEvent("getVii")
     if not self.data then
