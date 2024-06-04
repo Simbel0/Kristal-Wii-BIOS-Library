@@ -3,9 +3,13 @@ local Vii, super = Class(Actor, "vii")
 function Vii:init()
     super:init(self)
     self.width, self.height = 17, 35
-    self.hitbox = {3, 24, 12, 10}
+
+    -- Hitbox for this actor in the overworld (optional, uses width and height by default)
+    self.hitbox = {0, 23, 19, 14}
     self.path = "vii"
     self.default = "walk"
+
+    self.soul_offset = {9, 21}
 
     self.data = Kristal.callEvent("getVii")
     if not self.data then
