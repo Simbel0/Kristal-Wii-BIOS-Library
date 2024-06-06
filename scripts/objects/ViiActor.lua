@@ -205,7 +205,16 @@ function Vii:update()
             self.last_anim = self.anim
             self.frameCounts = {}
             for part, _ in pairs(self.parts) do
-                local path = self.actor.path .. "/" .. part .. "/" .. self.data.head .. "/" .. self.anim
+                local path = self.actor.path
+
+                if part == "hair" or part == "head" then
+                    path = self.actor.path .. "/" .. part .. "/" .. self.data.head .. "/" .. self.anim
+                elseif part == "legs" then
+                    path = self.actor.path .. "/legs/" .. (self.data.legs_left and "left" or "right") .. "/" .. self.anim
+                else
+                    path = self.actor.path .. "/" .. part .. "/" .. self.data.body .. "/" .. self.anim
+                end
+
                 local frames = Assets.getFrames(path)
                 if frames then
                     self.frameCounts[part] = #frames
@@ -228,7 +237,7 @@ function Vii:update()
                 elseif part == "legs" then
                     spr:setSprite(self.actor.path .. "/legs/" .. (self.data.legs_left and "left" or "right") .. "/" .. self.anim)
                 else
-                    spr:setSprite(self.actor.path .. "/" .. part .. "/" .. self.data.head .. "/" .. self.anim .. "_" .. frameIndex)
+                    spr:setSprite(self.actor.path .. "/" .. part .. "/" .. self.data.body .. "/" .. self.anim .. "_" .. frameIndex)
                 end
             end
         end
