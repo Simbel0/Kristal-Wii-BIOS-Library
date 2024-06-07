@@ -53,6 +53,17 @@ function Vii:init(actor, data)
                 hands = {0, 1},
                 legs = {0, 0}
             }
+        },
+        battle = {
+            idle = {
+                hair = {0.5, 18},
+                head = {0.5, 18},
+                body = {0, 9},
+                outline = {0, 7},
+                stripes = {0, 10},
+                hands = {0, 7},
+                legs = {0, 0}
+            }
         }
     }
     if self.actor.offsets then
@@ -204,7 +215,7 @@ function Vii:update()
             self.elapsedTime = 0
             self.last_anim = self.anim
             self.frameCounts = {}
-            for part, _ in pairs(self.parts) do
+            for part,spr in pairs(self.parts) do
                 local path = self.actor.path
 
                 if part == "hair" or part == "head" then
@@ -214,7 +225,6 @@ function Vii:update()
                 else
                     path = self.actor.path .. "/" .. part .. "/" .. self.data.body .. "/" .. self.anim
                 end
-
                 local frames = Assets.getFrames(path)
                 if frames then
                     self.frameCounts[part] = #frames
@@ -223,10 +233,23 @@ function Vii:update()
                     print("Warning: No frames found for part " .. part .. " at path " .. path)
                     self.frameCounts[part] = 1 -- Default to 1 to avoid division by zero
                 end
+                
+                local x_offset, y_offset = 0, 0
+                local anim_type, direction = self.anim:match("^(.-)/(.+)$")
+                
+                if anim_type and direction and self.parts_offsets[anim_type] and self.parts_offsets[anim_type][direction] and self.parts_offsets[anim_type][direction][part] then
+                    x_offset = self.parts_offsets[anim_type][direction][part][1]
+                    y_offset = self.parts_offsets[anim_type][direction][part][2]
+                else
+                    print("!!!No offsets for "..self.anim.."["..part.."]!!!")
+                end
+                spr:setPosition(spr.init_x + x_offset, spr.init_y + y_offset)
+
             end
         else
             self.elapsedTime = self.elapsedTime + DT
             local fps = self.fps
+
         
             for part, spr in pairs(self.parts) do
                 local frames = self.frameCounts[part] or 1
@@ -239,6 +262,7 @@ function Vii:update()
                 else
                     spr:setSprite(self.actor.path .. "/" .. part .. "/" .. self.data.body .. "/" .. self.anim .. "_" .. frameIndex)
                 end
+                
             end
         end
         return 

@@ -23,4 +23,10 @@ function Vii:createSprite()
     return ViiActor(self, self.data)
 end
 
+function Vii:onSpriteInit(sprite)
+    sprite:addFX(OutlineFX())
+    sprite:getFX(OutlineFX):setColor(1, 1, 1)
+end
+
+
 return Vii
